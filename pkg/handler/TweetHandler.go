@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"GoODer/model"
+	"GoODer/pkg/model"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -48,20 +48,59 @@ func GetTweetHandler() http.HandlerFunc {
 			if err != nil {
 				log.Fatal("url.Parse is valid")
 			}
-			fmt.Print(tweet.Id)
 			parseUrl, err := fmt.Printf("/create.json?id=%v", tweet.Id)
 			if err != nil {
 				log.Fatal("parse url printf is valid")
 			}
-			referece, err := url.Parse(string(parseUrl))
+			reference, err := url.Parse(string(parseUrl))
 			if err != nil {
 				log.Fatal("query parse is valid")
 			}
-			endPoint := base.ResolveReference(referece).String()
+			endPoint := base.ResolveReference(reference).String()
+			fmt.Print(endPoint)
+
+			// ランダム文字列でoauth_nonce作成
+			/*oauth_nonce, err := uuid.NewRandom()
+				if err != nil {
+					log.Fatal("rand is failed")
+				}
+
+				// timestamp作成
+				timestamp := time.Now()
+
+				// signature作るようのパラメータを設定
+			/param := fmt.Sprintf("OAuth oauth_consumer_key=%s&oauth_nonce=%s&oauth_signature_method=HMAC-SHA1&oauth_timestamp=%s&oauth_token=%s&oauth_version=1.0", os.Getenv("ConsumerKey"), oauth_nonce, timestamp, os.Getenv("ACCESS_TOKEN"))
+
+				// signature作成
+				baseString := fmt.Sprintf("POST&%s&%s", "https://api.twitter.com/1.1/favorites/create.json", values.Encode())
+				key := fmt.Sprintf("%s&", auth.SecretID)
+				mac := hmac.New(sha1.New, []byte(key))
+				mac.Write([]byte(baseString))
+				signature := base64.URLEncoding.EncodeToString(mac.Sum(nil))
+
+				// headerを定義
+				/*if err != nil {
+					log.Fatal("making header is failed")
+				}*/
+
+			// リクエスト作成
 			req, err := http.NewRequest("POST", endPoint, nil)
 			if err != nil {
 				log.Fatal("make request is failed")
 			}
+
+			// headerをセット
+			//req.Header.Set("Authentication", header)
+			/*Authorization:
+			OAuth oauth_consumer_key="xvz1evFS4wEEPTGEFPHBog",
+			oauth_nonce="kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg",
+			oauth_signature="tnnArxj06cWHq44gCs1OSKk%2FjLY%3D",
+			oauth_signature_method="HMAC-SHA1",
+			oauth_timestamp="1318622958",
+			oauth_token="370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb",
+			oauth_version="1.0"*/
+
+			// client周り
 			var client = &http.Client{}
 			resp, err := client.Do(req)
 			if err != nil {
