@@ -1,13 +1,13 @@
 package main
 
 import (
+	"GoODer/pkg/handler"
 	"log"
 	"net/http"
-	"GoODer/pkg/handler"
 )
 
 func main() {
-	http.HandleFunc("/", handler.GetTweetHandler())
+	http.HandleFunc("/", handler.CreateFavoriteHandler())
 
 	log.Println("Server Running")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
