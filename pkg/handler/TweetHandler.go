@@ -79,8 +79,6 @@ func CreateFavoriteHandler() http.HandlerFunc {
 			}
 		}
 
-		log.Fatal(target)
-
 		// 「いいね」を押しにいく
 		for index, tweet := range tweets {
 			result := model.IntContains(target, index)
