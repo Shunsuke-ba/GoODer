@@ -12,6 +12,7 @@ import (
 
 func CreateFavoriteHandler() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
+		// 認証
 		api, err := model.ConnectTwitterApi()
 		if err != nil {
 			log.Fatal("could not connect API")
@@ -67,6 +68,7 @@ func CreateFavoriteHandler() http.HandlerFunc {
 			tweet.User = data.User.Name
 			tweet.CreatedAt = data.CreatedAt
 			tweets = append(tweets, tweet)
+
 		}
 
 		// いいねを押すツイートを決定するためのrandのスライスを生成する
@@ -83,12 +85,10 @@ func CreateFavoriteHandler() http.HandlerFunc {
 		for index, tweet := range tweets {
 			result := model.IntContains(target, index)
 			if result == true {
-				newFavo, err := api.Favorite(tweet.Id)
+				_, err := api.Favorite(tweet.Id)
 				if err != nil {
 					log.Println("favorite tweet is failed")
 				}
-				log.Println("お気に入りしたツイート")
-				log.Println(newFavo)
 			}
 		}
 	}
