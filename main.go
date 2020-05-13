@@ -10,11 +10,15 @@ import (
 )
 
 func main() {
+	// 手動で動かす用
 	http.HandleFunc("/", handler.CreateFavoriteHandler())
 
-	scheduler.Every(2).Hours().Run(cron.CreateFavoriteCron) // 2時間ごと
+	// バッチ処理用
+	scheduler.Every(3).Minutes().Run(cron.CreateFavoriteCron) // 2時間ごと
+
 	log.Println("Server Running")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatalf("ListenAndServe is failed %v:", err)
 	}
+
 }
