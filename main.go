@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/carlescere/scheduler"
+	_ "github.com/carlescere/scheduler"
 )
 
 func main() {
