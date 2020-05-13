@@ -17,11 +17,15 @@ func CreateFavoriteCron() {
 	log.Print("API connect is success")
 
 	// 指定語句のツイートをGET(15件？)
-	searchTweet, err := api.GetSearch(config.Config.FavoWord, nil)
+	procirList, err := api.GetListTweets(1260478553738694658, false, nil)
+	if err != nil {
+		log.Fatal("get list is failed")
+	}
+	/*searchTweet, err := api.GetSearch(config.Config.FavoWord, nil)
 	if err != nil {
 		log.Fatal(err)
 		fmt.Print("search tweet is failed")
-	}
+	}*/
 
 	// 既にいいねしてるツイート取得（20件？）
 	favoList, err := api.GetFavorites(nil)
@@ -44,12 +48,8 @@ func CreateFavoriteCron() {
 
 	// ツイートのバリデーションをかける
 ROOP:
-	for _, data := range searchTweet.Statuses {
-
-		// 「プロサー」アカウントを除く
-		if data.User.Name == "プロサー" {
-			continue ROOP
-		}
+	//for _, data := range searchTweet.Statuses {
+	for _, data := range procirList {
 
 		// 既にいいねしてるツイートを除く
 		for _, favoTweet := range favoList {
