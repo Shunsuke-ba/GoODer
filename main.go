@@ -11,8 +11,8 @@ import (
 
 func main() {
 	// バッチ処理用
-	scheduler.Every(config.Config.FavoSleep).Hours().Run(cron.CreateFavoriteCron) // 3時間ごと
-	scheduler.Every(config.Config.FollowSleep).Hours().Run(cron.AutoFollowCron)   // 3時間ごと
+	//scheduler.Every(config.Config.FavoSleep).Hours().Run(cron.CreateFavoriteCron) // 3時間ごと
+	scheduler.Every(config.Config.FollowSleep).Hours().Run(cron.AutoFollowCron) // 3時間ごと
 
 	// 手動で動かす用
 	//http.HandleFunc("/", handler.CreateFavoriteHandler())

@@ -98,34 +98,39 @@ func AutoFollowCron() {
 		log.Fatal("could not connect API")
 	}
 
-	// フォローするアカウントの抽出
+	/*// フォローするアカウントの抽出
 	accounts, err := api.GetUserSearch(config.Config.FollowWord, nil)
 	if err != nil {
 		log.Fatal("get followAccount is failed ")
+	}*/
+
+	tweets, err := api.GetSearch(config.Config.FollowWord, nil)
+	if err != nil {
+		log.Fatal("get followAccount is failed")
 	}
 
 	// フォローするアカウントを決めるための乱数生成
 	rand.Seed(time.Now().UnixNano())
 	var target []int
 	for i := 0; i < config.Config.FollowCount; i++ {
-		rand := rand.Intn(len(accounts))
+		rand := rand.Intn(len(tweets.Statuses))
 		target = append(target, rand)
 	}
 
 	// 乱数と照らし合わせフォローアカウントを確定
 ROOP:
-	for index, account := range accounts {
-		if account.Following == true {
-			log.Printf("%s is still following", account.Name)
+	for index, tweet := range tweets.Statuses {
+		if tweet.User.Following == true {
+			log.Printf("%s is still following", tweet.User.Name)
 			continue ROOP
 		}
 		result := model.IntContains(target, index)
 		if result == true {
-			_, err := api.FollowUserId(account.Id, nil)
+			_, err := api.FollowUserId(tweet.User.Id, nil)
 			if err != nil {
 				log.Println("follow user is failed")
 			} else {
-				log.Printf("follow %s is success", account.Name)
+				log.Printf("follow %s is success", tweet.User.Name)
 			}
 		}
 	}
