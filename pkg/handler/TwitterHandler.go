@@ -110,7 +110,7 @@ func AutoFollowHandler() http.HandlerFunc {
 		// フォローするアカウントの抽出
 		accounts, err := api.GetUserSearch(config.Config.FollowWord, nil)
 		if err != nil {
-			log.Fatal("get follow tweet is")
+			log.Fatal("get follow account is failed")
 		}
 
 		// フォローするアカウントを決めるための乱数生成
