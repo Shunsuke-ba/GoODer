@@ -12,6 +12,7 @@ type ConfigList struct {
 	FavoSleep   int
 	FollowWord  string
 	FollowCount int
+	FollowSleep int
 }
 
 var Config ConfigList
@@ -28,5 +29,6 @@ func init() {
 		FavoSleep:   load.Section("CreateFavorite").Key("favo_sleep").MustInt(),
 		FollowWord:  load.Section("AutoFollow").Key("follow_word").String(),
 		FollowCount: load.Section("AutoFollow").Key("follow_count").MustInt(),
+		FollowSleep: load.Section("AutoFollow").Key("follow_sleep").MustInt(),
 	}
 }
