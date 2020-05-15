@@ -8,8 +8,11 @@ import (
 )
 
 type ConfigList struct {
-	FavoCount int
-	FavoSleep int
+	FavoCount   int
+	FavoSleep   int
+	FollowWord  string
+	FollowCount int
+	FollowSleep int
 }
 
 var Config ConfigList
@@ -22,7 +25,10 @@ func init() {
 	}
 
 	Config = ConfigList{
-		FavoCount: load.Section("CreateFavorite").Key("favo_count").MustInt(),
-		FavoSleep: load.Section("CreateFavorite").Key("favo_sleep").MustInt(),
+		FavoCount:   load.Section("CreateFavorite").Key("favo_count").MustInt(),
+		FavoSleep:   load.Section("CreateFavorite").Key("favo_sleep").MustInt(),
+		FollowWord:  load.Section("AutoFollow").Key("follow_word").String(),
+		FollowCount: load.Section("AutoFollow").Key("follow_count").MustInt(),
+		FollowSleep: load.Section("AutoFollow").Key("follow_sleep").MustInt(),
 	}
 }
