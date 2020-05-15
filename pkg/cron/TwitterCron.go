@@ -113,7 +113,12 @@ func AutoFollowCron() {
 	}
 
 	// 乱数と照らし合わせフォローアカウントを確定
+ROOP:
 	for index, account := range accounts {
+		if account.Following == true {
+			log.Printf("%s is still following", account.Name)
+			continue ROOP
+		}
 		result := model.IntContains(target, index)
 		if result == true {
 			_, err := api.FollowUserId(account.Id, nil)
