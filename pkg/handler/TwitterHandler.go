@@ -110,7 +110,7 @@ func AutoFollowHandler() http.HandlerFunc {
 		// フォローするアカウントの抽出
 		accounts, err := api.GetUserSearch(config.Config.FollowWord, nil)
 		if err != nil {
-			log.Fatal("get follow tweet is ")
+			log.Fatal("get follow account is failed")
 		}
 
 		// フォローするアカウントを決めるための乱数生成
@@ -122,7 +122,12 @@ func AutoFollowHandler() http.HandlerFunc {
 		}
 
 		// 乱数と照らし合わせフォローアカウントを確定
+	ROOP:
 		for index, account := range accounts {
+			if account.Following == true {
+				log.Printf("%s is still following", account.Name)
+				continue ROOP
+			}
 			result := model.IntContains(target, index)
 			if result == true {
 				_, err := api.FollowUserId(account.Id, nil)
