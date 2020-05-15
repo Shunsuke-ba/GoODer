@@ -99,6 +99,43 @@ func CreateFavoriteHandler() http.HandlerFunc {
 	}
 }
 
+func AutoFollowHandler() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		// api認証
+		api, err := model.ConnectTwitterApi()
+		if err != nil {
+			log.Fatal("could not connect API")
+		}
+
+		// フォローするアカウントの抽出
+		accounts, err := api.GetUserSearch(config.Config.FollowWord, nil)
+		if err != nil {
+			log.Fatal("get follow tweet is ")
+		}
+
+		// フォローするアカウントを決めるための乱数生成
+		rand.Seed(time.Now().UnixNano())
+		var target []int
+		for i := 0; i < config.Config.FollowCount; i++ {
+			rand := rand.Intn(len(accounts))
+			target = append(target, rand)
+		}
+
+		// 乱数と照らし合わせフォローアカウントを確定
+		for index, account := range accounts {
+			result := model.IntContains(target, index)
+			if result == true {
+				_, err := api.FollowUserId(account.Id, nil)
+				if err != nil {
+					log.Println("follow user is failed")
+				} else {
+					log.Printf("follow %s is success", account.Name)
+				}
+			}
+		}
+	}
+}
+
 type Tweet struct {
 	User      string `json:"user"`
 	Text      string `json:"text"`
