@@ -1,55 +1,39 @@
-php Mix API for My Schedule
+ Name
+UniversityBasketballDatabase
 
-実装予定
+→ UBD
 
-trello、zoom API使用可能性あり
-twitter 指定ワード　slack通知、ニュースURLにする可能性あり
-Slackの通知アイコンはこちらからお好きに変更できます。 Slack.php,GoogleExecute.phpのicon-emojiを変更 https://www.webfx.com/tools/emoji-cheat-sheet/
+DEMO
+大学の部活のマネージャーが毎回手入力していた「リーグ戦の全ての試合情報」を、その週の試合が終わることに公式サイトからスクレイピングすることによって毎週の試合にむけて最新情報を用いて相手チームを分析することを可能にするためのツール。
 
-PHP_Simple_API's
-PHP_Simple_API's is a tutorial of PHP.
+またこのツールによって相手チームの情報を簡単に共有できるようにしたことによって、全てのチーム関係者が容易にこの情報にリーチできるようにした。
 
-Description
-API、cronで欲しい情報を全て連携させる
+Requirement
+admin画面で最新情報を取得できるようにしまた同じ試合の取得もできないようにすることで、運用のハードルをさげた。
 
-スケジュール、タスク管理をどのサービスから行っても共有できるため、1つのスケジュールを変更すれば良い。
+また、蓄積したデータを現場にて使われる様々な切り口で出力できるようにした。
 
-#Requirement
+Installation
+"php": ">=7.0.0",
 
-PHP 7.3.14
-mysql Ver 15.1 Distrib 10.3.17-MariaDB, for Linux (x86_64) using readline 5.1
-slack webhook API
-Google Calender API
-Line Message API
-OS
-CentOS Linux 8.0.1905
+"fideloper/proxy": "~3.3",
+
+"laravel/framework": "5.5.*",
+
+"laravel/tinker": "~1.0",
+
+"laravelcollective/html": "^5.5",
+
+"weidner/goutte": "^1.3"
 
 Usage
-bash
+１, チームごとの選手平均 → 「選手平均一覧」より大学名を選択して検索
 
-git clone https://github.com/siv8510/PHP_Simple_API-s.git
-cd PHP_Simple_API-s
-DB
+2, 選手の試合ごとの記録 → 「選手平均一覧」の選手名をクリック。以下スクロール
 
-mysql -u hoge -p
-enter your pwd
-CREATE DATABASE API;
-USE API;
-source ./create_schedules_table.sql;
-quit;
-crontab
+3, 特定のチームと特定のチームの試合 → 「試合ボックススコア」より2チームを選択して検索
 
-* * * * * php path/slackbot/Google/GoogleExecute.php
-0 8-20/6 * * * php path/slackbot/Slack/SlackExecute.php
-Note
-完全個人用のため、人により、config/配下にcommon.phpを作成し、定数を定める必要性がある。 現在は、大学用URL、YouTube、Trello等がある。 APIのAccess Token系統も全てこの配下に記述。
+4, チームごとの記録及び記録ごとのランキング → チームスタッツよりチームごとの記録及びそれぞれの記録をクリックすることでその記録の種類ごとのランキングを表示
 
 Author
-sivchari
-university student 🇫🇷
-https://twitter.com/sivchari
-enjoy making your schedule!
-
-I'm glad this system makes you smile :)
-
-Thx!
+明治大学 3年 佐藤俊輔
